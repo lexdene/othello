@@ -1,0 +1,19 @@
+JOthelloWidget#page_gamewidget{
+	background-image:url(:/res/background.png);
+}
+QLabel#label_userid_0{
+	color:pink;
+	font-size:32px;
+}
+QLabel#label_userid_1{
+	color:red;
+	font-size:32px;
+}
+QLabel#label_userinfo_0{
+    color:pink;
+    font-size:32px;
+}
+QLabel#label_userinfo_1{
+    color:red;
+    font-size:32px;
+}
