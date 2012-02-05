@@ -31,7 +31,7 @@ void JMemoryLineEdit::resetP()
 
 void JMemoryLineEdit::moveP(EDirection dire)
 {
-    int di ;
+    int di =0 ;
     switch(dire){
     case ED_Up:
         di = -1;
