@@ -34,6 +34,7 @@ FORMS    += \
 include(../../Dlut-Game-Platform/api/api.pri)
 include(../common/common.pri)
 include(../../roommodel/roommodel_client.pri)
+unix:!mac:QMAKE_LFLAGS += -Wl,--rpath=lib/
 
 RESOURCES += \
     res/res.qrc
