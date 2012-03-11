@@ -2,6 +2,7 @@
 #define JOTHELLOWIDGET_H
 
 #include <Global/Global>
+#include <DataStruct/JUserInfo>
 
 #include <JRoom>
 
@@ -15,7 +16,8 @@ class JRoom;
 class JOthello;
 class JOthelloInput;
 class JOthelloOutput;
-class JRequestUserInfo;
+template <class T>
+class JRequestInformation;
 
 class JOthelloWidget : public QWidget
 {
@@ -38,7 +40,7 @@ protected:
 private:
     Ui::JOthelloWidget *ui;
     JRoomModelClientRoomProcessor* m_processor;
-    JRequestUserInfo* m_rui;
+    JRequestInformation<JUserInfo>* m_rui;
     JOthello *m_othello;
     JOthelloInput *m_input;
     JOthelloOutput *m_output;

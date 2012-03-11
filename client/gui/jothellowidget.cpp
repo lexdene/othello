@@ -8,7 +8,7 @@
 
 #include <JRoomModelClientRoomProcessor>
 
-#include <ClientRequest/JRequestUserInfo>
+#include <ClientRequest/JRequestInformation>
 
 #include <QPainter>
 #include <QMouseEvent>
@@ -40,7 +40,7 @@ JOthelloWidget::JOthelloWidget(QWidget *parent) :
     JOthelloMapper::setInitY(60);
     ui->label_color0->setPixmap(m_pixblack.scaledToHeight(20));
     ui->label_color1->setPixmap(m_pixwhite.scaledToHeight(20));
-    m_rui = new JRequestUserInfo(this);
+    m_rui = new JRequestInformation<JUserInfo>(this);
 }
 
 JOthelloWidget::~JOthelloWidget()
@@ -166,7 +166,7 @@ void JOthelloWidget::receiveRoomInfo(const JRoom& room)
                 ui->label_iam0->setPixmap(m_pixiam);
                 ui->label_iam1->clear();
             }
-            JUserInfo userinfo = m_rui->pullUserInfo(userId,1000);
+            JUserInfo userinfo = m_rui->pullInformation(userId,1000);
             ui->label_userid_0->setText(userinfo.getNickname());
         }else{
             ui->label_userid_0->setText(QString::number(-1));
@@ -177,7 +177,7 @@ void JOthelloWidget::receiveRoomInfo(const JRoom& room)
                 ui->label_iam1->setPixmap(m_pixiam);
                 ui->label_iam0->clear();
             }
-            JUserInfo userinfo = m_rui->pullUserInfo(userId,1000);
+            JUserInfo userinfo = m_rui->pullInformation(userId,1000);
             ui->label_userid_1->setText(userinfo.getNickname());
         }else{
             ui->label_userid_1->setText(QString::number(-1));
@@ -188,7 +188,7 @@ void JOthelloWidget::receiveRoomInfo(const JRoom& room)
 void JOthelloWidget::receiveRoomChat(JID userId,JID roomId,const QString& text)
 {
     if( roomId == m_roomId ){
-        JUserInfo userinfo = m_rui->pullUserInfo(userId,1000);
+        JUserInfo userinfo = m_rui->pullInformation(userId,1000);
         ui->textBrowser_chat->append(
             QString("%1 : %2")
             .arg(userinfo.getNickname())
