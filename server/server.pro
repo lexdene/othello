@@ -13,4 +13,3 @@ SOURCES += \
 include(../../Dlut-Game-Platform/api/api.pri)
 include(../common/common.pri)
 include(../../roommodel/roommodel_server.pri)
-unix:!mac:QMAKE_LFLAGS += -Wl,--rpath=lib/
