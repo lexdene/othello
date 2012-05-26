@@ -1,4 +1,4 @@
-TARGET = client
+TARGET = OthelloClient
 TEMPLATE = app
 
 

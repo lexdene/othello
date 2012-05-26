@@ -1,5 +1,5 @@
 TEMPLATE = app
-TARGET =
+TARGET = OthelloServer
 
 # Input
 HEADERS += \

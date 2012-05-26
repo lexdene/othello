@@ -46,6 +46,7 @@ JCode JOthelloServerApplication::escapeRoom(JID userId)
         if(m_users[i]==userId){
             m_users[i]=-1;
             if(isGameStarted()) resetAndSend(3);
+            else resetAndSend( ERT_Ready );
             return 0;
         }
     }

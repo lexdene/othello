@@ -12,6 +12,8 @@
 
 #include <QPainter>
 #include <QMouseEvent>
+#include <QTime>
+
 
 JOthelloWidget::JOthelloWidget(QWidget *parent) :
     QWidget(parent),
@@ -97,6 +99,12 @@ void JOthelloWidget::putChess(int at,const QPoint& pt)
 void JOthelloWidget::ready(int at)
 {
     Q_ASSERT( 0 == at || 1 == at );
+    JID userId = m_roominfo.getUserList().at(at);
+    JUserInfo userinfo = m_rui->pullInformation(userId,1000);
+    ui->textBrowser_chat->append(
+        tr("<div style=\"color:red;font-size:14px\">%1 ready</div>")
+        .arg( userinfo.getNickname() )
+    );
     if( 0 == at){
         ui->label_userinfo_0->setText(tr("ready"));
     }else{
@@ -106,7 +114,12 @@ void JOthelloWidget::ready(int at)
 
 void JOthelloWidget::gameOver(quint8 winner)
 {
-    ui->textBrowser_chat->append(tr("game over . %1 win .").arg(m_roominfo.getUserList().at(winner)));
+    JID userId = m_roominfo.getUserList().at(winner);
+    JUserInfo userinfo = m_rui->pullInformation(userId,1000);
+    ui->textBrowser_chat->append(
+        tr("<div style=\"color:red;font-size:14px\">game over . %1 win .</div>")
+        .arg( userinfo.getNickname() )
+    );
 }
 
 void JOthelloWidget::refreshUserList()
@@ -130,7 +143,6 @@ void JOthelloWidget::paintEvent(QPaintEvent *)
         for(int j=0;j<MAXY;++j)
         {
             QRect rect = othelloMapper->mapToReal(QPoint(i,j));
-            //painter.drawRect(rect);
             switch(othello[i][j])
             {
             case JOthello::COL_BLACK:
@@ -190,8 +202,12 @@ void JOthelloWidget::receiveRoomChat(JID userId,JID roomId,const QString& text)
     if( roomId == m_roomId ){
         JUserInfo userinfo = m_rui->pullInformation(userId,1000);
         ui->textBrowser_chat->append(
-            QString("%1 : %2")
+            QString("<div style=\"color:red;font-size:14px\">%1 "
+                "<span style=\"color:blue;\">%2</span></div>"
+                "<div>%3</div>"
+            )
             .arg(userinfo.getNickname())
+            .arg(QTime::currentTime().toString("hh:mm:ss"))
             .arg(text)
         );
     }
