@@ -4,3 +4,5 @@ HEADERS += \
     Othello/jothello.h
 SOURCES += \
     Othello/jothello.cpp
+
+DESTDIR = $$DGP_OUTPUTDIR/Othello
