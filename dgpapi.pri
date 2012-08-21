@@ -1,1 +1,1 @@
-include(../libdgpapi/dgpapi.pri)
+include(../Dlut-Game-Platform/libdgpapi/dgpapi.pri)
