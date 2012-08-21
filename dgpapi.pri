@@ -1,0 +1,1 @@
+include(../libdgpapi/dgpapi.pri)

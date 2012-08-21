@@ -10,6 +10,6 @@ SOURCES += \
     application/jothelloserverapplication.cpp \
     application/jothelloserverapplicationfactory.cpp
 
-include(../../Dlut-Game-Platform/api/api.pri)
+include(../dgpapi.pri)
 include(../common/common.pri)
 include(../../roommodel/roommodel_server.pri)

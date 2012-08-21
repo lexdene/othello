@@ -25,7 +25,7 @@ FORMS    += \
     gui/jothellowindow.ui \
     gui/jothellowidget.ui
 
-include(../../Dlut-Game-Platform/api/api.pri)
+include(../dgpapi.pri)
 include(../common/common.pri)
 include(../../roommodel/roommodel_client.pri)
 
