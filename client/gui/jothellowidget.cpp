@@ -100,11 +100,9 @@ void JOthelloWidget::ready(int at)
 {
     Q_ASSERT( 0 == at || 1 == at );
     JID userId = m_roominfo.getUserList().at(at);
-    JRequestUserInfo rui(JMainClientSocket::instance(),0);
-    JUserInfo userinfo = rui.pullInformation(userId,1000);
     ui->textBrowser_chat->append(
         tr("<div style=\"color:red;font-size:14px\">%1 ready</div>")
-        .arg( userinfo.m_nickname )
+        .arg( getUserNickName(userId) )
     );
     if( 0 == at){
         ui->label_userinfo_0->setText(tr("ready"));
@@ -116,11 +114,9 @@ void JOthelloWidget::ready(int at)
 void JOthelloWidget::gameOver(quint8 winner)
 {
     JID userId = m_roominfo.getUserList().at(winner);
-    JRequestUserInfo rui(JMainClientSocket::instance(),0);
-    JUserInfo userinfo = rui.pullInformation(userId,1000);
     ui->textBrowser_chat->append(
         tr("<div style=\"color:red;font-size:14px\">game over . %1 win .</div>")
-        .arg( userinfo.m_nickname )
+        .arg( getUserNickName(userId) )
     );
 }
 
@@ -180,9 +176,7 @@ void JOthelloWidget::receiveRoomInfo(const JRoom& room)
                 ui->label_iam0->setPixmap(m_pixiam);
                 ui->label_iam1->clear();
             }
-            JRequestUserInfo rui(JMainClientSocket::instance(),0);
-            JUserInfo userinfo = rui.pullInformation(userId,1000);
-            ui->label_userid_0->setText( userinfo.m_nickname );
+            ui->label_userid_0->setText( getUserNickName(userId) );
         }else{
             ui->label_userid_0->setText(QString::number(-1));
         }
@@ -192,9 +186,7 @@ void JOthelloWidget::receiveRoomInfo(const JRoom& room)
                 ui->label_iam1->setPixmap(m_pixiam);
                 ui->label_iam0->clear();
             }
-            JRequestUserInfo rui(JMainClientSocket::instance(),0);
-            JUserInfo userinfo = rui.pullInformation(userId,1000);
-            ui->label_userid_1->setText( userinfo.m_nickname );
+            ui->label_userid_1->setText( getUserNickName(userId) );
         }else{
             ui->label_userid_1->setText(QString::number(-1));
         }
@@ -204,14 +196,12 @@ void JOthelloWidget::receiveRoomInfo(const JRoom& room)
 void JOthelloWidget::receiveRoomChat(JID userId,JID roomId,const QString& text)
 {
     if( roomId == m_roomId ){
-        JRequestUserInfo rui(JMainClientSocket::instance(),0);
-        JUserInfo userinfo = rui.pullInformation(userId,1000);
         ui->textBrowser_chat->append(
             QString("<div style=\"color:red;font-size:14px\">%1 "
                 "<span style=\"color:blue;\">%2</span></div>"
                 "<div>%3</div>"
             )
-            .arg(userinfo.m_nickname)
+            .arg(getUserNickName(userId))
             .arg(QTime::currentTime().toString("hh:mm:ss"))
             .arg(text)
         );
@@ -234,6 +224,18 @@ void JOthelloWidget::updateScore()
 {
     ui->label_score0->setText(QString::number(m_othello->getScore(JOthello::COL_BLACK)));
     ui->label_score1->setText(QString::number(m_othello->getScore(JOthello::COL_WHITE)));
+}
+
+QString JOthelloWidget::getUserNickName(JID userId){
+    JRequestUserInfo rui(JMainClientSocket::instance(),0);
+    JUserInfo userinfo = rui.pullInformation(userId,1000);
+    QString userNickname;
+    if( userinfo.m_userId == userId ){
+        userNickname = userinfo.m_nickname ;
+    }else{
+        userNickname = tr("no nickname(%1)").arg(userId);
+    }
+    return userNickname;
 }
 
 void JOthelloWidget::on_btn_escape_clicked()

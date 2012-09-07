@@ -49,6 +49,7 @@ private:
 private:
     void updateTurnPixmap();
     void updateScore();
+    QString getUserNickName(JID userId);
 private slots:
     void on_btn_ready_clicked();
     void on_lineEdit_chat_returnPressed();

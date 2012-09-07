@@ -45,8 +45,6 @@ JCode JOthelloServerApplication::escapeRoom(JID userId)
     for(int i=0;i<Othello_MAX_USER;++i){
         if(m_users[i]==userId){
             m_users[i]=-1;
-            if(isGameStarted()) resetAndSend(3);
-            else resetAndSend( ERT_Ready );
             return 0;
         }
     }
@@ -62,18 +60,29 @@ void JOthelloServerApplication::afterEnterRoom(JID)
     }
 }
 
+void JOthelloServerApplication::afterEscapeRoom(JID){
+	if(isGameStarted()) resetAndSend(3);
+	else resetAndSend( ERT_Ready );
+}
+
 void JOthelloServerApplication::processGameData(int at , const QByteArray& data)
 {
     Q_ASSERT( 0 == at || 1 == at);
     QDataStream stream(data);
     quint8 protocol;
     stream>>protocol;
+    qDebug()<<"JOthelloServerApplication::processGameData"
+            <<__LINE__
+            <<"protocol:"<<protocol
+            <<"at:"<<at;
     switch(protocol){
     case EOP_Ready:
+        qDebug()<<"EOP_Ready";
         processReady(at);
         break;
     case EOP_PutChess:
         {
+            qDebug()<<"EOP_PutChess";
             quint8 pt;
             stream>>pt;
             int x = pt/8%8;

@@ -17,6 +17,7 @@ public:
 	JCode enterRoom(JID userId);
     JCode escapeRoom(JID userId);
     void afterEnterRoom(JID userId);
+    void afterEscapeRoom(JID userId);
     void processGameData(int at, const QByteArray& data);
     void resetAndSend(quint8 type);
 private:
